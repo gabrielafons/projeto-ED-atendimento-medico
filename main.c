@@ -14,13 +14,20 @@ typedef struct Paciente {
     int idade;             
     char rg[15];           
     Data entrada;         
-    struct Paciente* proximo;  // Ponteiro para o próximo paciente (para lista encadeada)
+    struct Paciente* proximo;  // segundo os slides do projeto isso esta errado
 } Paciente;
 
 typedef struct Lista{
     int qtde;
-    Paciente* inicio;
+    Elista* inicio;
+    
 }Lista;
+
+typedef struct Elista{
+    Paciente* dados;
+    Elista* prox
+
+}Elista;
 
 void tratamento(char *entrada,char *novaEntrada){
     int i = 0;
