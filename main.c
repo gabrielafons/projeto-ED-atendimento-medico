@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>  
+#include <ctype.h> 
 
 typedef struct Data {
     int dia;
@@ -15,6 +16,30 @@ typedef struct Paciente {
     Data entrada;         
     struct Paciente* proximo;  // Ponteiro para o próximo paciente (para lista encadeada)
 } Paciente;
+
+typedef struct Lista{
+    int qtde;
+    Paciente* inicio;
+}Lista;
+
+void tratamento(char *entrada,char *novaEntrada){
+    int i = 0;
+    int j = 0;
+    int count = 0;
+    while(entrada[i]!='\0'){
+        if(isdigit(entrada[i])){
+            novaEntrada[j] = entrada[i];
+            j++;
+            count++;
+            if(count == 2 || count == 4 ){
+                novaEntrada[j] = ' '; 
+                j++;
+            }
+        }
+        i++;            
+    }
+    novaEntrada[j] ='\0';
+}
 
 void Cadastrar(Paciente **lista){
     Paciente *novoPaciente = (Paciente*) malloc(sizeof(Paciente));  
@@ -34,9 +59,22 @@ void Cadastrar(Paciente **lista){
     fgets(novoPaciente->rg, sizeof(novoPaciente->rg), stdin);  // Usa fgets para RG
     novoPaciente->rg[strcspn(novoPaciente->rg, "\n")] = '\0';  // Remove o '\n' extra
 
+    char newData[11];
+    char data[11] ;
     // Recebe a data de entrada do paciente
-    printf("Data de Entrada (DD MM AAAA): ");
-    scanf("%d %d %d", &novoPaciente->entrada.dia, &novoPaciente->entrada.mes, &novoPaciente->entrada.ano);
+    printf("Data de Entrada (dia.mes.ano): ");
+    fgets(data, sizeof(data),stdin);
+    
+    tratamento(data,newData);
+    // scanf("%d %d %d", &novoPaciente->entrada.dia, &novoPaciente->entrada.mes, &novoPaciente->entrada.ano);
+    sscanf(newData,"%d %d %d", &novoPaciente->entrada.dia, &novoPaciente->entrada.mes, &novoPaciente->entrada.ano);
+
+    printf("------DEBUG ---- retirar depois\n\n");
+    printf("dia: %d\n",novoPaciente->entrada.dia );
+    printf("mes: %d\n",novoPaciente->entrada.mes );
+    printf("ano: %d\n",novoPaciente->entrada.ano );
+    printf("------DEBUG ---- retirar depois\n\n");
+
     getchar(); // Limpa o buffer para evitar problemas nas próximas leituras
 
     // Insere o novo paciente no início da lista
@@ -44,6 +82,7 @@ void Cadastrar(Paciente **lista){
     *lista = novoPaciente;  // Atualiza o início da lista
 
     printf("Cadastro feito! \n");
+    
 }
 
 void mostrarLista(Paciente* lista) {
