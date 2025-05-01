@@ -14,8 +14,12 @@ typedef struct Paciente {
     int idade;             
     char rg[15];           
     Data entrada;         
-    struct Paciente* proximo;  // segundo os slides do projeto isso esta errado
 } Paciente;
+
+typedef struct Elista{
+    Paciente* dados;
+    struct Elista* prox;
+}Elista;
 
 typedef struct Lista{
     int qtde;
@@ -23,11 +27,7 @@ typedef struct Lista{
     
 }Lista;
 
-typedef struct Elista{
-    Paciente* dados;
-    Elista* prox
 
-}Elista;
 
 void tratamento(char *entrada,char *novaEntrada){
     int i = 0;
@@ -48,8 +48,15 @@ void tratamento(char *entrada,char *novaEntrada){
     novaEntrada[j] ='\0';
 }
 
-void Cadastrar(Paciente **lista){
-    Paciente *novoPaciente = (Paciente*) malloc(sizeof(Paciente));  
+
+void Cadastrar(Lista *lista){
+    Paciente *novoPaciente = (Paciente*) malloc(sizeof(Paciente)); 
+    Elista* elista = (Elista*) malloc(sizeof(Elista));
+    elista->dados = novoPaciente;     
+    elista->prox = lista->inicio;
+    lista->inicio = elista;
+    lista->qtde++;
+
 
     // Recebe o nome do paciente
     printf("Nome: ");
@@ -76,38 +83,35 @@ void Cadastrar(Paciente **lista){
     // scanf("%d %d %d", &novoPaciente->entrada.dia, &novoPaciente->entrada.mes, &novoPaciente->entrada.ano);
     sscanf(newData,"%d %d %d", &novoPaciente->entrada.dia, &novoPaciente->entrada.mes, &novoPaciente->entrada.ano);
 
-    printf("------DEBUG ---- retirar depois\n\n");
-    printf("dia: %d\n",novoPaciente->entrada.dia );
-    printf("mes: %d\n",novoPaciente->entrada.mes );
-    printf("ano: %d\n",novoPaciente->entrada.ano );
-    printf("------DEBUG ---- retirar depois\n\n");
+    // printf("------DEBUG ---- retirar depois\n\n");
+    // printf("dia: %d\n",novoPaciente->entrada.dia );
+    // printf("mes: %d\n",novoPaciente->entrada.mes );
+    // printf("ano: %d\n",novoPaciente->entrada.ano );
+    // printf("------DEBUG ---- retirar depois\n\n");
 
     getchar(); // Limpa o buffer para evitar problemas nas próximas leituras
-
-    // Insere o novo paciente no início da lista
-    novoPaciente->proximo = *lista;
-    *lista = novoPaciente;  // Atualiza o início da lista
-
     printf("Cadastro feito! \n");
-    
 }
 
-void mostrarLista(Paciente* lista) {
-    Paciente* atual = lista;
+void mostrarLista(Lista* lista) {
+    Elista* atual = lista->inicio;
     if (atual == NULL) {
         printf("Nenhum paciente cadastrado.\n");
         return;
     }
     while (atual != NULL) {
         printf("Nome: %s, Idade: %d, RG: %s, Data de Entrada: %02d/%02d/%d\n",
-               atual->nome, atual->idade, atual->rg,
-               atual->entrada.dia, atual->entrada.mes, atual->entrada.ano);
-        atual = atual->proximo;
+               atual->dados->nome, atual->dados->idade, atual->dados->rg,
+               atual->dados->entrada.dia, atual->dados->entrada.mes, atual->dados->entrada.ano);
+        atual = atual->prox;
     }
 }
 
 int main(){
-    Paciente* lista = NULL; 
+    Lista* lista = (Lista*) malloc(sizeof(Lista));
+    lista->inicio = NULL;
+    lista->qtde = 0;
+
     int opcao;
 
     do {
@@ -121,7 +125,7 @@ int main(){
         
         switch (opcao) {
             case 1:
-                Cadastrar(&lista);  
+                Cadastrar(lista);  
                 break;
             case 2:
                 mostrarLista(lista);  
