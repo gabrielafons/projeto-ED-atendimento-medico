@@ -76,6 +76,9 @@ int main(){
                             Cadastrar(lista);  
                             break;
                         case 2:
+                            consultarPaciente(lista);  
+                            break;
+                        case 3:
                             mostrarLista(lista);  
                             break;
                         case 0:
