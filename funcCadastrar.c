@@ -5,7 +5,7 @@
 
 #include "funcCadastrar.h"
 
-Paciente encontraPaciente (Lista* lista) {
+Paciente* encontraPaciente (Lista* lista) {
     char rg[15];
     while(1) {
         printf("===================================================================\n");
@@ -25,13 +25,13 @@ Paciente encontraPaciente (Lista* lista) {
     while (atual != NULL) {
         if (strcmp(atual->dados->rg, rg) == 0) {
             paciente = atual->dados;
-            return *paciente;
+            return paciente;
         }
         atual = atual->prox;
     }
     printf("Paciente com RG %s não encontrado.\n", rg);
 
-    return *paciente;
+    return paciente;
 }
 
 void consultarPaciente(Lista* lista) {
@@ -138,4 +138,64 @@ void mostrarLista(Lista* lista) {
                atual->dados->entrada.dia, atual->dados->entrada.mes, atual->dados->entrada.ano);
         atual = atual->prox;
     }
+}
+
+void atualizar(Lista* lista){
+    Paciente *paciente = encontraPaciente(lista);
+    int opcao =0;
+    char resp[50];
+    char newData[11], data[11];
+
+    if(paciente == NULL){
+        return;
+    }
+
+    printf("\nDados atuais:\n");
+    printf("Nome: %s, Idade: %d, RG: %s, Data de Entrada: %02d/%02d/%d\n",
+           paciente->nome, paciente->idade, paciente->rg,
+           paciente->entrada.dia, paciente->entrada.mes, paciente->entrada.ano);
+
+    do{
+        printf("\nQual informação deseja alterar?\n");
+        printf("1 - Nome\n");
+        printf("2 - Idade\n");
+        printf("3 - RG\n");
+        printf("4 - Data de entrada\n");
+        printf("0 - Voltar\n");
+        printf("Escolha uma opcao: \n ");
+        scanf("%d", &opcao);
+        getchar();
+
+        switch (opcao)
+        {
+        case 1:
+            printf("Novo nome: ");
+            fgets(paciente->nome, sizeof(paciente->nome), stdin);
+            paciente->nome[strcspn(paciente->nome, "\n")] = '\0'; // tirando o \n do nome dentro do struct após fazer a atualização
+            break;
+        case 2:
+            printf("Nova idade: ");
+            fgets(resp, sizeof(resp), stdin);
+            paciente->idade = atoi(resp);
+            break;
+        case 3:
+            printf("Novo RG: ");
+            fgets(paciente->rg, sizeof(paciente->rg), stdin);
+            paciente->rg[strcspn(paciente->rg, "\n")] = '\0';
+            break;
+        case 4:
+            printf("Nova data (dia.mes.ano): ");
+            fgets(data, sizeof(data), stdin);
+            tratamento(data, newData);
+            sscanf(newData, "%d %d %d", &paciente->entrada.dia, &paciente->entrada.mes, &paciente->entrada.ano);
+            break;
+        case 0:
+            printf("Encerrando atualização.\n");
+            break;
+        default:
+            printf("Opção invalida, tente novamente");
+        }
+
+
+    }while(opcao != 0);
 }
