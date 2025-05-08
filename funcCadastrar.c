@@ -199,3 +199,48 @@ void atualizar(Lista* lista){
 
     }while(opcao != 0);
 }
+
+void remover(Lista* lista){
+    Paciente* paciente = encontraPaciente(lista);
+
+    if(paciente == NULL){
+        return;
+    }
+
+    printf("\nTem certeza que deseja remover este paciente?\n");
+    printf("Nome: %s\nIdade: %d\n", paciente->nome, paciente->idade);
+    printf("Digite 's' para confirmar: ");
+
+    char confirmacao;
+    scanf(" %c", &confirmacao);
+
+    if (confirmacao != 's') {
+        printf("Remoção cancelada.\n");
+        return;
+    }
+
+    Elista* atual = lista->inicio;
+    Elista* anterior = NULL;
+
+    while(atual !=NULL){
+
+        if(atual->dados == paciente){
+
+            if(anterior == NULL){// remoção do inicio
+                lista->inicio = atual->prox;
+            }else{ // fim da lista atual->prox ==NULL
+                anterior->prox = atual->prox;
+            }
+
+            free(atual->dados);
+            free(atual);
+            lista->qtde--;
+            printf("Paciente removido com sucesso.\n");
+            return;
+        }
+
+        anterior = atual;
+        atual = atual->prox;
+    }
+
+}

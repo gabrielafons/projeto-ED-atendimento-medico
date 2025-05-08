@@ -85,6 +85,7 @@ int main(){
                             atualizar(lista);
                             break;
                         case 5:
+                            remover(lista);
                             break;
                         case 0:
                             printf("Voltando...\n");

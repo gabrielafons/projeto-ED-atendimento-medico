@@ -9,6 +9,7 @@ void Cadastrar(Lista* lista);
 void tratamento(char *entrada,char *novaEntrada);
 void consultarPaciente(Lista* lista);
 void atualizar(Lista* lista);
+void remover(Lista* lista);
 
 #endif
 
