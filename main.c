@@ -81,6 +81,12 @@ int main(){
                         case 3:
                             mostrarLista(lista);  
                             break;
+                        case 4: 
+                            atualizar(lista);
+                            break;
+                        case 5:
+                            remover(lista);
+                            break;
                         case 0:
                             printf("Voltando...\n");
                             break;
