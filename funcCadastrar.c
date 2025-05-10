@@ -208,7 +208,7 @@ void remover(Lista* lista){
     }
 
     printf("\nTem certeza que deseja remover este paciente?\n");
-    printf("Nome: %s\nIdade: %d\n", paciente->nome, paciente->idade);
+    printf("Nome: %s\nIdade: %d\n RG: %s\n", paciente->nome, paciente->idade,paciente->rg);
     printf("Digite 's' para confirmar: ");
 
     char confirmacao;

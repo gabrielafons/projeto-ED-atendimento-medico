@@ -121,7 +121,7 @@ int main(){
                             enfileirar(lista, fila);
                             break;
                         case 2:
-                            printf("Em Construção");
+                            desinfileirar(fila);
                             break;
                         case 0:
                             printf("Voltando...\n");

@@ -31,3 +31,38 @@ void enfileirar(Lista* lista,Fila* fila){
    fila->qtde++;
 }
 
+void desinfileirar(Fila* fila){// desinfileirar recebe só a fila pq sempre tira o primeiro da fila, não é necessario busca
+    if(fila->head == NULL){
+        printf("Fila vazia. Nenhum paciente para atender.\n");
+        return;
+    }
+
+    Efila* remover = fila->head;
+    Paciente* paciente = remover->dados;
+
+    printf("Próximo paciente:\n");
+    printf("Nome: %s\n", paciente->nome);
+    printf("Idade: %d\n", paciente->idade);
+    printf("RG: %s\n", paciente->rg);
+    printf("\nTem certeza que deseja atender este paciente?\n");
+    printf("Digite 's' para confirmar: ");
+
+    char confirmacao;
+    scanf(" %c", &confirmacao);
+
+    if (confirmacao != 's') {
+        printf("Remoção cancelada.\n");
+        return;
+    }
+
+    if(fila->qtde == 1){//ultimo paciente a ser atendido
+        fila->head = NULL;
+        fila->tail = NULL;
+    }else{
+        fila->head = fila->head->prox;
+    }
+    fila->qtde--;
+    free(remover);
+    printf("Paciente atendido com sucesso. Fila agora possui %d paciente(s).\n", fila->qtde);
+}
+

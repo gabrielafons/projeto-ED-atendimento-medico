@@ -4,6 +4,7 @@
 #include "estruturas.h"
 
 void enfileirar(Lista* Lista, Fila* fila);
+void desinfileirar(Fila* fila);
 
 #endif
 
