@@ -66,3 +66,28 @@ void desinfileirar(Fila* fila){// desinfileirar recebe só a fila pq sempre tira
     printf("Paciente atendido com sucesso. Fila agora possui %d paciente(s).\n", fila->qtde);
 }
 
+void mostra(Fila* fila){
+    if (fila->head == NULL) {
+        printf("A fila está vazia.\n");
+        return;
+    }
+
+    printf("=== Pacientes na fila ===\n");
+    Efila* atual = fila->head;
+    int posicao = 1;
+
+    while (atual != NULL) {
+        Paciente* paciente = atual->dados;
+        printf("Posição %d:\n", posicao);
+        printf("  Nome: %s\n", paciente->nome);
+        printf("  Idade: %d\n", paciente->idade);
+        printf("  RG: %s\n\n", paciente->rg);
+
+        atual = atual->prox;
+        posicao++;
+    }
+
+    printf("Total de pacientes na fila: %d\n", fila->qtde);
+
+}
+

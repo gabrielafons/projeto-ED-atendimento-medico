@@ -123,6 +123,9 @@ int main(){
                         case 2:
                             desinfileirar(fila);
                             break;
+                        case 3:
+                            mostra(fila);
+                            break;
                         case 0:
                             printf("Voltando...\n");
                             break;
