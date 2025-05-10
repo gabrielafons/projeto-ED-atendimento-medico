@@ -10,6 +10,7 @@ void tratamento(char *entrada,char *novaEntrada);
 void consultarPaciente(Lista* lista);
 void atualizar(Lista* lista);
 void remover(Lista* lista);
+Paciente* encontraPaciente (Lista* lista);
 
 #endif
 

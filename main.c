@@ -4,6 +4,7 @@
 #include <ctype.h> 
 
 #include "funcCadastrar.h"
+#include "funcFilaAtend.h"
 
 void submenu(int opt, Lista* lista){
     if(opt == 1){ //cadastrar
@@ -38,6 +39,13 @@ int main(){
     Lista* lista = (Lista*) malloc(sizeof(Lista));
     lista->inicio = NULL;
     lista->qtde = 0;
+
+    Fila* fila = (Fila*) malloc(sizeof(Fila));
+    fila->head = NULL;
+    fila->tail=NULL;
+    fila->qtde =0;
+
+    
 
     int opcao;
     int opcao2;
@@ -110,10 +118,13 @@ int main(){
                     
                     switch (opcao2) {
                         case 1:
-                            printf("Em Construção");
+                            enfileirar(lista, fila);
                             break;
                         case 2:
-                            printf("Em Construção");
+                            desinfileirar(fila);
+                            break;
+                        case 3:
+                            mostra(fila);
                             break;
                         case 0:
                             printf("Voltando...\n");

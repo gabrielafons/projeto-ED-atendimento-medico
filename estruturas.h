@@ -25,4 +25,15 @@ typedef struct Lista{
     
 }Lista;
 
+typedef struct Efila{
+    Paciente* dados;
+    struct Efila* prox;
+}Efila;
+
+typedef struct Fila{
+    Efila* head;
+    Efila* tail;
+    int qtde;
+}Fila;
+
 #endif
