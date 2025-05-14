@@ -17,7 +17,8 @@ int main(){
     fila->tail=NULL;
     fila->qtde =0;
 
-    
+    Heap* heap = (Heap*) malloc(sizeof(Heap));
+    heap->qtde = 0;
 
     int opcao;
     int opcao2;
@@ -121,10 +122,13 @@ int main(){
                     
                     switch (opcao2) {
                         case 1:
-                            printf("Em Construção");
+                            enfileirarPrio(lista,heap);
                             break;
                         case 2:
-                            printf("Em Construção");
+                            desinfileirarPrio(heap);
+                            break;
+                        case 3:
+                            mostrarFilaPrioridade(heap);
                             break;
                         case 0:
                             printf("Voltando...\n");
