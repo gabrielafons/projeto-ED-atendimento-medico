@@ -1,6 +1,8 @@
 #ifndef ESTRUTURAS_H
 #define ESTRUTURAS_H
 
+#define TAMHEAP  20
+
 typedef struct Data {
     int dia;
     int mes;
@@ -35,5 +37,10 @@ typedef struct Fila{
     Efila* tail;
     int qtde;
 }Fila;
+
+typedef struct Heap{
+    Paciente* pacientes[TAMHEAP];
+    int qtde;
+}Heap;
 
 #endif

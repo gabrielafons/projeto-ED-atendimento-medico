@@ -5,35 +5,7 @@
 
 #include "funcCadastrar.h"
 #include "funcFilaAtend.h"
-
-void submenu(int opt, Lista* lista){
-    if(opt == 1){ //cadastrar
-        int opcao;
-        do{
-            printf("\nMenu Cadastrar\n");
-            printf("1 - Cadastrar \n");
-            printf("2 - ");
-            scanf("%d", &opcao);
-            getchar();  // Limpa o buffer do teclado após o scanf
-            
-            switch (opcao) {
-                case 1:
-                    Cadastrar(lista);  
-                    break;
-                case 2:
-                    mostrarLista(lista);  
-                    break;
-                case 0:
-            
-                    break;
-                default:
-                    printf("Opcao invalida!\n");
-            }
-        } while (opcao != 0);
-
-        }
-
-}
+#include "funcFilaPrior.h"
 
 int main(){
     Lista* lista = (Lista*) malloc(sizeof(Lista));
@@ -45,7 +17,8 @@ int main(){
     fila->tail=NULL;
     fila->qtde =0;
 
-    
+    Heap* heap = (Heap*) malloc(sizeof(Heap));
+    heap->qtde = 0;
 
     int opcao;
     int opcao2;
@@ -149,10 +122,13 @@ int main(){
                     
                     switch (opcao2) {
                         case 1:
-                            printf("Em Construção");
+                            enfileirarPrio(lista,heap);
                             break;
                         case 2:
-                            printf("Em Construção");
+                            desinfileirarPrio(heap);
+                            break;
+                        case 3:
+                            mostrarFilaPrioridade(heap);
                             break;
                         case 0:
                             printf("Voltando...\n");
