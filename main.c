@@ -6,6 +6,7 @@
 #include "funcCadastrar.h"
 #include "funcFilaAtend.h"
 #include "funcFilaPrior.h"
+#include "funcPesquisa.h"
 
 int main(){
     Lista* lista = (Lista*) malloc(sizeof(Lista));
@@ -19,6 +20,10 @@ int main(){
 
     Heap* heap = (Heap*) malloc(sizeof(Heap));
     heap->qtde = 0;
+
+    ABB* arvore = (ABB*) malloc(sizeof(ABB));
+    arvore->raiz = NULL;
+    arvore->qtde = 0;
 
     int opcao;
     int opcao2;
@@ -145,7 +150,7 @@ int main(){
                     printf("1 - Mostrar registros ordenados por ano de registro\n");
                     printf("2 - Mostrar registros ordenados por mês de registro\n");
                     printf("3 - Mostrar registros ordenados por dia de registro\n");
-                    printf("4 - Mostrar registros ordenados por idade do paciente\n ");
+                    printf("4 - Mostrar registros ordenados por idade do paciente\n");
                     printf("0 - Voltar\n");
                     printf("===================================================================\n");
                     printf("Escolha uma opcao: \n ");
@@ -153,11 +158,17 @@ int main(){
                     getchar();  // Limpa o buffer do teclado após o scanf
                     
                     switch (opcao2) {
-                        case 1:
-                            printf("Em Construção");
+                        case 1:// 1 ordenação por ano
+                            contruirArvore(lista,arvore,opcao2); 
                             break;
-                        case 2:
-                            printf("Em Construção");
+                        case 2:// 2 ordenação por mes
+                            contruirArvore(lista,arvore,opcao2); 
+                            break;
+                        case 3: // 3 ordenação por dia
+                            contruirArvore(lista,arvore,opcao2); 
+                            break;
+                        case 4://ordenação por idade
+                            contruirArvore(lista,arvore,opcao2);
                             break;
                         case 0:
                             printf("Voltando...\n");

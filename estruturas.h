@@ -13,7 +13,7 @@ typedef struct Paciente {
     char nome[100];       
     int idade;             
     char rg[15];           
-    Data entrada;         
+    Data* entrada;         
 } Paciente;
 
 typedef struct Elista{
@@ -43,5 +43,15 @@ typedef struct Heap{
     int qtde;
 }Heap;
 
+typedef struct EABB{
+    Paciente* dados;
+    struct EABB* dir;
+    struct EABB* esq;
+}EABB;
+
+typedef struct ABB{
+    EABB* raiz;
+    int qtde;
+}ABB;
 
 #endif

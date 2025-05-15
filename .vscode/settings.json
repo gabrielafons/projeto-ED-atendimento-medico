@@ -1,6 +1,7 @@
 {
     "files.associations": {
         "estruturas.h": "c",
-        "stdlib.h": "c"
+        "stdlib.h": "c",
+        "funccadastrar.h": "c"
     }
 }
