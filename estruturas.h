@@ -54,4 +54,16 @@ typedef struct ABB{
     int qtde;
 }ABB;
 
+typedef struct Operacao{
+    struct Operacao* anterior; 
+    struct Operacao* prox;
+    Efila* efila; //ponteiro para o eFila que contem os dados da ultima operação realizada
+    int tipoOperacao; // 1 para inserção 2 para remoção
+}Operacao;
+
+typedef struct Pilha{
+    Operacao* topo;
+    int qtde;
+}Pilha;
+
 #endif

@@ -7,6 +7,7 @@
 #include "funcFilaAtend.h"
 #include "funcFilaPrior.h"
 #include "funcPesquisa.h"
+#include "funcDesfazer.h"
 
 int main(){
     Lista* lista = (Lista*) malloc(sizeof(Lista));
@@ -24,6 +25,11 @@ int main(){
     ABB* arvore = (ABB*) malloc(sizeof(ABB));
     arvore->raiz = NULL;
     arvore->qtde = 0;
+
+    Pilha* pilha = (Pilha*) malloc(sizeof(Pilha));
+    pilha->topo = NULL;
+    pilha->qtde =0;
+  
 
     int opcao;
     int opcao2;
@@ -96,10 +102,10 @@ int main(){
                     
                     switch (opcao2) {
                         case 1:
-                            enfileirar(lista, fila);
+                            enfileirar(lista,fila,pilha);
                             break;
                         case 2:
-                            desinfileirar(fila);
+                            desinfileirar(fila,pilha);
                             break;
                         case 3:
                             mostra(fila);
@@ -192,10 +198,10 @@ int main(){
                     
                     switch (opcao2) {
                         case 1:
-                            printf("Em Construção");
+                            mostrarPilha(pilha);
                             break;
                         case 2:
-                            printf("Em Construção");
+                             desfazerOperacao(pilha,fila);
                             break;
                         case 0:
                             printf("Voltando...\n");
