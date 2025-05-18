@@ -226,7 +226,7 @@ int main(){
                     
                     switch (opcao2) {
                         case 1:
-                            printf("Em Construção");
+                            carregar(lista);
                             break;
                         case 2:
                             salvar(lista);

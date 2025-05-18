@@ -11,6 +11,20 @@ chato dms ter que digitar isso
 
 #include "funcSalvar.h"
 
+void limparLista(Lista* lista) {
+    Elista* atual = lista->inicio;
+    while (atual != NULL) {
+        Elista* temp = atual;
+        atual = atual->prox;
+
+        free(temp->dados->entrada);
+        free(temp->dados);
+        free(temp);
+    }
+    lista->inicio = NULL;
+    lista->qtde = 0;
+}
+
 void liberarPilha(tempPilha* pilha){
     tempElista* ant = NULL;
     tempElista* atu = pilha->top;
@@ -46,10 +60,42 @@ tempPilha* criaPilhaTemp(Lista* lista){
     return pilhaTemp;
 }
 
+void carregar(Lista* lista){
+    FILE* pacientes;
+    pacientes = fopen("pacientes.txt","r");
+    if (!pacientes) {
+        perror("erro ao abrir arquivo");
+        return;
+    }
+    char linha[256];
+    limparLista(lista);
+
+    while(fgets(linha,sizeof(linha),pacientes)){
+        Paciente* novoPaciente = (Paciente*) malloc(sizeof(Paciente));
+        Data* entrada = (Data*) malloc(sizeof(Data));
+        Elista* elista = (Elista*) malloc(sizeof(Elista));
+
+        elista->dados = novoPaciente;     
+        elista->prox = lista->inicio;
+        elista->dados->entrada = entrada;
+
+        linha[strcspn(linha, "\n")] = '\0'; // remove o \n no final de cada linha
+
+        sscanf(linha, " %99[^,],%d,%14[^,],%d,%d,%d",
+        elista->dados->nome,&elista->dados->idade,elista->dados->rg,
+        &elista->dados->entrada->dia,&elista->dados->entrada->mes,&elista->dados->entrada->ano);
+
+        lista->inicio = elista;
+        lista->qtde++;
+}
+    fclose(pacientes);
+    printf("Pacientes carregados com sucesso!\n");
+}
+
 void salvar(Lista* lista){// 
     FILE* pacientes;
 
-    pacientes = fopen("paciente.txt","w"); // abrindo o arquivo para escrita
+    pacientes = fopen("pacientes.txt","w"); // abrindo o arquivo para escrita
 
     if (!pacientes) {
         perror("erro ao abrir arquivo");
