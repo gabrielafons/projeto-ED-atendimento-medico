@@ -66,4 +66,19 @@ typedef struct Pilha{
     int qtde;
 }Pilha;
 
+typedef struct tempElista{
+    struct tempElista* anterior;
+    struct tempElista* proximo;
+    Elista* pac;
+}tempElista;
+//Elista temporario para ajudar a pilha temporaria
+
+typedef struct tempPilha{
+   tempElista* top;
+   int qtde;
+}tempPilha;
+// criação de uma pilha temporaria, essa pilha tem função de armazenar os dados da lista de pacientes
+// isso esta sendo feito pois a lista de paciente tem inserção no inicio fazendo com que o primeiro paciente 
+//cadastrado seja o ultimo da lista, a pilha vai inverter isso de forma dinamica.
+
 #endif

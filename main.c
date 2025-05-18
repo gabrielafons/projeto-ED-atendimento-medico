@@ -8,6 +8,7 @@
 #include "funcFilaPrior.h"
 #include "funcPesquisa.h"
 #include "funcDesfazer.h"
+#include "funcSalvar.h"
 
 int main(){
     Lista* lista = (Lista*) malloc(sizeof(Lista));
@@ -228,7 +229,7 @@ int main(){
                             printf("Em Construção");
                             break;
                         case 2:
-                            printf("Em Construção");
+                            salvar(lista);
                             break;
                         case 0:
                             printf("Voltando...\n");
