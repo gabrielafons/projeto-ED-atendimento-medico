@@ -5,35 +5,10 @@
 
 #include "funcCadastrar.h"
 #include "funcFilaAtend.h"
-
-void submenu(int opt, Lista* lista){
-    if(opt == 1){ //cadastrar
-        int opcao;
-        do{
-            printf("\nMenu Cadastrar\n");
-            printf("1 - Cadastrar \n");
-            printf("2 - ");
-            scanf("%d", &opcao);
-            getchar();  // Limpa o buffer do teclado após o scanf
-            
-            switch (opcao) {
-                case 1:
-                    Cadastrar(lista);  
-                    break;
-                case 2:
-                    mostrarLista(lista);  
-                    break;
-                case 0:
-            
-                    break;
-                default:
-                    printf("Opcao invalida!\n");
-            }
-        } while (opcao != 0);
-
-        }
-
-}
+#include "funcFilaPrior.h"
+#include "funcPesquisa.h"
+#include "funcDesfazer.h"
+#include "funcSalvar.h"
 
 int main(){
     Lista* lista = (Lista*) malloc(sizeof(Lista));
@@ -45,7 +20,17 @@ int main(){
     fila->tail=NULL;
     fila->qtde =0;
 
-    
+    Heap* heap = (Heap*) malloc(sizeof(Heap));
+    heap->qtde = 0;
+
+    ABB* arvore = (ABB*) malloc(sizeof(ABB));
+    arvore->raiz = NULL;
+    arvore->qtde = 0;
+
+    Pilha* pilha = (Pilha*) malloc(sizeof(Pilha));
+    pilha->topo = NULL;
+    pilha->qtde =0;
+  
 
     int opcao;
     int opcao2;
@@ -118,10 +103,10 @@ int main(){
                     
                     switch (opcao2) {
                         case 1:
-                            enfileirar(lista, fila);
+                            enfileirar(lista,fila,pilha);
                             break;
                         case 2:
-                            desinfileirar(fila);
+                            desinfileirar(fila,pilha);
                             break;
                         case 3:
                             mostra(fila);
@@ -149,10 +134,13 @@ int main(){
                     
                     switch (opcao2) {
                         case 1:
-                            printf("Em Construção");
+                            enfileirarPrio(lista,heap);
                             break;
                         case 2:
-                            printf("Em Construção");
+                            desinfileirarPrio(heap);
+                            break;
+                        case 3:
+                            mostrarFilaPrioridade(heap);
                             break;
                         case 0:
                             printf("Voltando...\n");
@@ -169,7 +157,7 @@ int main(){
                     printf("1 - Mostrar registros ordenados por ano de registro\n");
                     printf("2 - Mostrar registros ordenados por mês de registro\n");
                     printf("3 - Mostrar registros ordenados por dia de registro\n");
-                    printf("4 - Mostrar registros ordenados por idade do paciente\n ");
+                    printf("4 - Mostrar registros ordenados por idade do paciente\n");
                     printf("0 - Voltar\n");
                     printf("===================================================================\n");
                     printf("Escolha uma opcao: \n ");
@@ -177,11 +165,17 @@ int main(){
                     getchar();  // Limpa o buffer do teclado após o scanf
                     
                     switch (opcao2) {
-                        case 1:
-                            printf("Em Construção");
+                        case 1:// 1 ordenação por ano
+                            contruirArvore(lista,arvore,opcao2); 
                             break;
-                        case 2:
-                            printf("Em Construção");
+                        case 2:// 2 ordenação por mes
+                            contruirArvore(lista,arvore,opcao2); 
+                            break;
+                        case 3: // 3 ordenação por dia
+                            contruirArvore(lista,arvore,opcao2); 
+                            break;
+                        case 4://ordenação por idade
+                            contruirArvore(lista,arvore,opcao2);
                             break;
                         case 0:
                             printf("Voltando...\n");
@@ -205,10 +199,10 @@ int main(){
                     
                     switch (opcao2) {
                         case 1:
-                            printf("Em Construção");
+                            mostrarPilha(pilha);
                             break;
                         case 2:
-                            printf("Em Construção");
+                             desfazerOperacao(pilha,fila);
                             break;
                         case 0:
                             printf("Voltando...\n");
@@ -232,10 +226,10 @@ int main(){
                     
                     switch (opcao2) {
                         case 1:
-                            printf("Em Construção");
+                            carregar(lista);
                             break;
                         case 2:
-                            printf("Em Construção");
+                            salvar(lista);
                             break;
                         case 0:
                             printf("Voltando...\n");

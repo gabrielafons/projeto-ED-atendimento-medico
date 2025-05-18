@@ -34,6 +34,27 @@ Paciente* encontraPaciente (Lista* lista) {
     return paciente;
 }
 
+int rgValido(const char* rg) {
+    if (strlen(rg) != 9) return 0;
+
+    for (int i = 0; rg[i]; i++) {
+        if (!isdigit(rg[i])) return 0;
+    }
+    return 1;
+}
+
+Paciente* encontraPacientePorRG(Lista* lista, const char* rg) {
+    Elista* atual = lista->inicio;
+    while (atual != NULL) {
+        if (strcmp(atual->dados->rg, rg) == 0) {
+            return atual->dados;
+        }
+        atual = atual->prox;
+    }
+    return NULL;
+}
+
+
 void consultarPaciente(Lista* lista) {
     char rg[15];
     while(1) {
@@ -56,7 +77,7 @@ void consultarPaciente(Lista* lista) {
         if (strcmp(atual->dados->rg, rg) == 0) {
             printf("Nome: %s, Idade: %d, RG: %s, Data de Entrada: %02d/%02d/%d\n",
                    atual->dados->nome, atual->dados->idade, atual->dados->rg,
-                   atual->dados->entrada.dia, atual->dados->entrada.mes, atual->dados->entrada.ano);
+                   atual->dados->entrada->dia, atual->dados->entrada->mes, atual->dados->entrada->ano);
             return;
         }
         atual = atual->prox;
@@ -85,8 +106,10 @@ void tratamento(char *entrada,char *novaEntrada){
 void Cadastrar(Lista *lista){
     Paciente *novoPaciente = (Paciente*) malloc(sizeof(Paciente)); 
     Elista* elista = (Elista*) malloc(sizeof(Elista));
+    Data* entrada = (Data*) malloc(sizeof(Data));
     elista->dados = novoPaciente;     
     elista->prox = lista->inicio;
+    elista->dados->entrada = entrada;
     lista->inicio = elista;
     lista->qtde++;
 
@@ -100,11 +123,27 @@ void Cadastrar(Lista *lista){
     printf("Idade: ");
     scanf("%d", &novoPaciente->idade);
     getchar();  // Limpa o buffer para evitar problemas com fgets em seguida
+    while (1) {
+        char rgTemp[15];
+        printf("RG (somente números, 9 dígitos): ");
+        fgets(rgTemp, sizeof(rgTemp), stdin);
+        rgTemp[strcspn(rgTemp, "\n")] = '\0';
 
-    
-    printf("RG: ");
-    fgets(novoPaciente->rg, sizeof(novoPaciente->rg), stdin);  // Usa fgets para RG
-    novoPaciente->rg[strcspn(novoPaciente->rg, "\n")] = '\0';  // Remove o '\n' extra
+        if (!rgValido(rgTemp)) {
+            printf("RG inválido. Deve conter exatamente 9 dígitos numéricos.\n");
+            continue;
+        }
+
+        // usa encontraPaciente para checar duplicação
+        if (encontraPacientePorRG(lista, rgTemp) != NULL) {
+            printf("RG já cadastrado. Tente outro RG.\n");
+            continue;
+        }
+
+    strcpy(novoPaciente->rg, rgTemp);
+    break;
+    }
+
 
     char newData[11];
     char data[11] ;
@@ -114,7 +153,7 @@ void Cadastrar(Lista *lista){
     
     tratamento(data,newData);
     // scanf("%d %d %d", &novoPaciente->entrada.dia, &novoPaciente->entrada.mes, &novoPaciente->entrada.ano);
-    sscanf(newData,"%d %d %d", &novoPaciente->entrada.dia, &novoPaciente->entrada.mes, &novoPaciente->entrada.ano);
+    sscanf(newData,"%d %d %d", &novoPaciente->entrada->dia, &novoPaciente->entrada->mes, &novoPaciente->entrada->ano);
 
     // printf("------DEBUG ---- retirar depois\n\n");
     // printf("dia: %d\n",novoPaciente->entrada.dia );
@@ -135,7 +174,7 @@ void mostrarLista(Lista* lista) {
     while (atual != NULL) {
         printf("Nome: %s, Idade: %d, RG: %s, Data de Entrada: %02d/%02d/%d\n",
                atual->dados->nome, atual->dados->idade, atual->dados->rg,
-               atual->dados->entrada.dia, atual->dados->entrada.mes, atual->dados->entrada.ano);
+               atual->dados->entrada->dia, atual->dados->entrada->mes, atual->dados->entrada->ano);
         atual = atual->prox;
     }
 }
@@ -153,7 +192,7 @@ void atualizar(Lista* lista){
     printf("\nDados atuais:\n");
     printf("Nome: %s, Idade: %d, RG: %s, Data de Entrada: %02d/%02d/%d\n",
            paciente->nome, paciente->idade, paciente->rg,
-           paciente->entrada.dia, paciente->entrada.mes, paciente->entrada.ano);
+           paciente->entrada->dia, paciente->entrada->mes, paciente->entrada->ano);
 
     do{
         printf("\nQual informação deseja alterar?\n");
@@ -187,7 +226,7 @@ void atualizar(Lista* lista){
             printf("Nova data (dia.mes.ano): ");
             fgets(data, sizeof(data), stdin);
             tratamento(data, newData);
-            sscanf(newData, "%d %d %d", &paciente->entrada.dia, &paciente->entrada.mes, &paciente->entrada.ano);
+            sscanf(newData, "%d %d %d", &paciente->entrada->dia, &paciente->entrada->mes, &paciente->entrada->ano);
             break;
         case 0:
             printf("Encerrando atualização.\n");
@@ -232,6 +271,7 @@ void remover(Lista* lista){
                 anterior->prox = atual->prox;
             }
 
+            free(atual->dados->entrada);
             free(atual->dados);
             free(atual);
             lista->qtde--;

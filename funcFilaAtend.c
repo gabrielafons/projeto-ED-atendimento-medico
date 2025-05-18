@@ -9,8 +9,9 @@ chato dms ter que digitar isso
 */
 #include "funcFilaAtend.h"
 #include "funcCadastrar.h"
+#include "funcDesfazer.h"
 
-void enfileirar(Lista* lista,Fila* fila){
+void enfileirar(Lista* lista,Fila* fila, Pilha* pilha){
     Paciente* paciente = encontraPaciente(lista); // ponteiro para o paciente na lista
      if(paciente == NULL){
         return;
@@ -27,11 +28,14 @@ void enfileirar(Lista* lista,Fila* fila){
         fila->tail->prox = efila;
         printf("Paciente \"%s\" adicionado ao final da fila.\n", paciente->nome);
    }
+   //atualização da pilha de operações
+   construirPilha(efila,pilha,1);
+
    fila->tail = efila;
    fila->qtde++;
 }
 
-void desinfileirar(Fila* fila){// desinfileirar recebe só a fila pq sempre tira o primeiro da fila, não é necessario busca
+void desinfileirar(Fila* fila,Pilha* pilha){// desinfileirar recebe só a fila pq sempre tira o primeiro da fila, não é necessario busca
     if(fila->head == NULL){
         printf("Fila vazia. Nenhum paciente para atender.\n");
         return;
@@ -61,8 +65,10 @@ void desinfileirar(Fila* fila){// desinfileirar recebe só a fila pq sempre tira
     }else{
         fila->head = fila->head->prox;
     }
+  
+    //atualização da pilha de operações
+    construirPilha(remover,pilha,2);
     fila->qtde--;
-    free(remover);
     printf("Paciente atendido com sucesso. Fila agora possui %d paciente(s).\n", fila->qtde);
 }
 
